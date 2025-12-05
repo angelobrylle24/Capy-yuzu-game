@@ -1,3 +1,4 @@
+
 export type ItemType = 'yuzu' | 'cat' | 'rain';
 
 export interface GameItem {
@@ -16,6 +17,12 @@ export interface GameState {
   isPlaying: boolean;
   isGameOver: boolean;
   highScore: number;
+  gameTime: number;
+}
+
+export interface HighScoreEntry {
+  score: number;
+  date: string;
 }
 
 export enum GameDifficulty {
