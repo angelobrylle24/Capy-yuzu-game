@@ -3,27 +3,21 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
-  // Load environment variables from .env and Vercel
-  const env = loadEnv(mode, process.cwd(), '');
-
-  return {
-    // ⚡ Ensures correct asset paths on Vercel
-    base: '/',
-
-    server: {
-      port: 3000,
-      host: '0.0.0.0',
-    },
-
-    plugins: [react()],
-
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
+    const env = loadEnv(mode, '.', '');
+    return {
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
       },
-    },
-
-    // ❌ Remove 'define' for process.env
-    // We will use import.meta.env in your React code
-  };
+      plugins: [react()],
+      define: {
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
 });
